@@ -1,13 +1,12 @@
-import * as mongoose from 'mongoose';
-
-export const UserSchema = new mongoose.Schema({
-  name: String,
-  email: String,
-  role: { type: String, enum: ['user', 'manager'], default: 'user' },
-});
+import { IsNotEmpty, IsOptional, IsString, IsEmail } from 'class-validator';
 
 export class CreateUserDto {
-  name: string;
+  @IsString()
+  @IsEmail()
+  @IsNotEmpty()
   email: string;
-  role: 'user' | 'manager';
+
+  @IsString()
+  @IsOptional()
+  name: string;
 }
