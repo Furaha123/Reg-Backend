@@ -24,6 +24,8 @@ model User {
   posts   Post[]
   userSetting   UserSetting?   
 }
+
+ 
 model UserSetting {
     id             String    @id @default(auto()) @map("_id") @db.ObjectId
     notificationOn Boolean
