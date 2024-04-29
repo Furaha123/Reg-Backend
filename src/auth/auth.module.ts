@@ -5,6 +5,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { LocalStrategy } from './strategies/local.strategy';
 import { JwtStrategy } from './strategies/jwt.strategy';
+import { PrismaModule } from 'src/prisma/prisma.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { JwtStrategy } from './strategies/jwt.strategy';
       secret: 'moses0816',
       signOptions: { expiresIn: '1h' },
     }),
+    PrismaModule
   ],
   controllers: [AuthController],
   providers: [AuthService, LocalStrategy, JwtStrategy],

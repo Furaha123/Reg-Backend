@@ -16,8 +16,10 @@ import { JwtAuthGuard } from './guards/jwt.guards';
 export class AuthController {
   constructor(private authService: AuthService) {}
   @Post('login')
-  @UseGuards(LocalGuard)
+  // @UseGuards(LocalGuard)
   login(@Body() authPayload: AuthPayloadDto) {
+
+    console.log(authPayload)
     const user = this.authService.validateUser(authPayload);
     if (!user) throw new HttpException('Invalide credentials ', 401);
     return user;

@@ -1,15 +1,17 @@
 import { HttpException, Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
-
+import * as bcrypt from 'bcrypt';
 @Injectable()
 export class UsersService {
   constructor(private prisma: PrismaService) {}
 
   async createUser(data: Prisma.UserCreateInput) {
+    const hashedPassword = await bcrypt.hash(data.password, 10);
     return await this.prisma.user.create({
       data: {
         ...data,
+        password: hashedPassword,
         userSetting: {
           create: {
             smsEnabled: true,
@@ -25,9 +27,12 @@ export class UsersService {
   }
 
   getUserId(id: string) {
-    return this.prisma.user.findUnique({ where: { id }, include:{
-      userSetting:true
-    } }); 
+    return this.prisma.user.findUnique({
+      where: { id },
+      include: {
+        userSetting: true,
+      },
+    });
   }
 
   async updateUserById(id: string, data: Prisma.UserUpdateInput) {
