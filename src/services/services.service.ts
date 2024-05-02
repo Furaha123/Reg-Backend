@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 
@@ -14,5 +14,43 @@ export class Services {
       },
     });
   }
-  
+  getServices() {
+    return this.prisma.services.findMany();
+  }
+  getServiceById(id: string) {
+    return this.prisma.services.findUnique({
+      where: { id },
+    });
+  }
+  async updateServiceById(id: string, data: Prisma.ServicesUpdateInput) {
+    const findService = await this.getServiceById(id);
+    if (!findService) {
+      throw new HttpException('Service not found', 404);
+    }
+
+    if (data.title) {
+      const existingService = await this.prisma.services.findFirst({
+        where: {
+          title: data.title as string,
+        },
+      });
+
+      if (existingService) {
+        throw new HttpException(
+          'Service with the updated title already exists',
+          409,
+        );
+      }
+    }
+
+    return this.prisma.services.update({
+      where: { id },
+      data,
+    });
+  }
+  async deleteServiceById(id: string) {
+    const findService = await this.getServiceById(id);
+    if (!findService) throw new HttpException('Service not found', 404);
+    return this.prisma.services.delete({ where: { id } });
+  }
 }
