@@ -11,6 +11,7 @@ import { AuthPayloadDto } from './dto/auth.dto';
 import { AuthService } from './auth.service';
 import { LocalGuard } from './guards/local.guards';
 import { JwtAuthGuard } from './guards/jwt.guards';
+import { AdminGuard } from './guards/admin.guards';
 
 @Controller('auth')
 export class AuthController {
@@ -26,7 +27,7 @@ export class AuthController {
   }
 
   @Get('status')
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, AdminGuard)
   status(@Req() req: Request) {
     // console.log(req.user);
   }
