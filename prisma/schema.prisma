@@ -47,7 +47,6 @@ model Issues {
   userId      String  @db.ObjectId
   user        User    @relation(fields: [userId], references: [id])
   @@index([userId])
- 
 }
 
 
@@ -56,8 +55,7 @@ model Branch {
     name  String
     description String
     Contacts Int
-    sectors sector[]
-    
+    sectors sector[] 
 }
 
 model Connection {
@@ -65,6 +63,9 @@ model Connection {
   names String
   ID   Int
   UPI String
+  villageId String @db.ObjectId
+  village  village @relation(fields: [villageId], references: [id])
+
 }
 
 model province{
@@ -88,10 +89,13 @@ model sector {
 model cell {
    id    String @id @default(auto()) @map("_id") @db.ObjectId
    name String
+   sectorId String @db.ObjectId
 }
 
 
 model village {
    id    String @id @default(auto()) @map("_id") @db.ObjectId
    name String
+   cellId String @db.ObjectId
+   connections Connection[]
 }

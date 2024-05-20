@@ -9,6 +9,7 @@ export class CreateConnectionDto {
   @IsNotEmpty()
   ID: number;
 
+  village: string
   @IsString()
   @IsNotEmpty()
   UPI: string;

@@ -4,7 +4,7 @@ export class IssueCreateDto {
   @IsString()
   @IsNotEmpty()
   name: string;
-  
+
   @IsNotEmpty()
   phone: number;
 
@@ -14,7 +14,8 @@ export class IssueCreateDto {
 
   @IsString()
   @IsNotEmpty()
+  userId: string;
+  @IsString()
+  @IsNotEmpty()
   description: string;
-
-  
 }
