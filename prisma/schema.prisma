@@ -16,8 +16,8 @@ model User {
   name  String?
   role   Role             @default(USER)
   userSetting   UserSetting? 
-  
-  
+  issues Issues []
+   @@map("users")  
 }
 enum Role {
   USER
@@ -39,26 +39,59 @@ model UserSetting {
     userId         String    @unique @db.ObjectId
 }
 model Issues {
-  id    String @id @default(auto()) @map("_id") @db.ObjectId
-  name  String
-  phone Int
-  title  String
-  description  String
-  location    String
-  province String
-  district String
-  sector String
-
+    id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  phone       Int
+  title       String
+  description String
+  userId      String  @db.ObjectId
+  user        User    @relation(fields: [userId], references: [id])
+  @@index([userId])
+ 
 }
-
 
 
 model Branch {
     id    String @id @default(auto()) @map("_id") @db.ObjectId
     name  String
     description String
-    address  String
-    location String
     Contacts Int
+    sectors sector[]
     
+}
+
+model Connection {
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  names String
+  ID   Int
+  UPI String
+}
+
+model province{
+   id    String @id @default(auto()) @map("_id") @db.ObjectId
+   name String
+   districts district []
+}
+model district {
+   id    String @id @default(auto()) @map("_id") @db.ObjectId
+   name String
+   provinceId String @db.ObjectId
+province  province @relation(fields: [provinceId], references: [id])
+}
+model sector {
+   id    String @id @default(auto()) @map("_id") @db.ObjectId
+   name String
+   branchId String @db.ObjectId
+ branch Branch @relation(fields: [branchId], references: [id])
+}
+
+model cell {
+   id    String @id @default(auto()) @map("_id") @db.ObjectId
+   name String
+}
+
+
+model village {
+   id    String @id @default(auto()) @map("_id") @db.ObjectId
+   name String
 }

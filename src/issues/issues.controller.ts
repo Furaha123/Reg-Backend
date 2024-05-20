@@ -8,18 +8,29 @@ import {
   Put,
   UsePipes,
   ValidationPipe,
+  Req,
+  UseGuards
 } from '@nestjs/common';
 import { IssuesService } from './issues.service';
 import { IssueCreateDto } from './dtos/IssueCreate.dto';
 import { UpdateIssueDto } from './dtos/UpdateIssue.dto';
+import { Request } from '@nestjs/common';
+import { JwtAuthGuard } from 'src/auth/guards/jwt.guards';
 
 @Controller('issues')
 export class IssuesController {
   constructor(private IssueService: IssuesService) {}
   @Post()
   @UsePipes(ValidationPipe)
-  createIssue(@Body() issueCreatDto: IssueCreateDto) {
-    return this.IssueService.createIssue(issueCreatDto);
+  @UseGuards(JwtAuthGuard)
+  async createIssue(
+    @Body() issueCreateDto: IssueCreateDto,
+    @Req() req: any,
+  ) {
+    const userId = req.user.userId;
+
+    // console.log(userId)
+    return this.IssueService.createIssue({ ...issueCreateDto, userId });
   }
   @Get()
   getIssues() {

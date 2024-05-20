@@ -6,7 +6,8 @@ import { PrismaService } from 'src/prisma/prisma.service';
 export class IssuesService {
   constructor(private prisma: PrismaService) {}
   createIssue(data: Prisma.IssuesCreateInput) {
-    return this.prisma.issues.create({ data });
+    return this.prisma.issues.create({
+      data,  });
   }
 
   getIssues() {
