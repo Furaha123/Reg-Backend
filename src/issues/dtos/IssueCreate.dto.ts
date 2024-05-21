@@ -1,4 +1,5 @@
 import { IsNotEmpty, IsString } from 'class-validator';
+import { ServerResponse } from 'http';
 
 export class IssueCreateDto {
   @IsString()
@@ -15,7 +16,20 @@ export class IssueCreateDto {
   @IsString()
   @IsNotEmpty()
   userId: string;
+
   @IsString()
   @IsNotEmpty()
   description: string;
+
+  @IsString()
+  @IsNotEmpty()
+  user: string;
+
+  @IsString()
+  @IsNotEmpty()
+  village: string;
+
+  @IsString()
+  @IsNotEmpty()
+  branch: string;
 }

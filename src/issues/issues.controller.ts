@@ -29,7 +29,7 @@ export class IssuesController {
   ) {
     const userId = req.user.userId;
 
-    console.log(userId)
+    // console.log(userId)
     return this.IssueService.createIssue({ ...issueCreateDto, userId });
   }
   @Get()

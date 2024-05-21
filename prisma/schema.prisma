@@ -46,7 +46,11 @@ model Issues {
   description String
   userId      String  @db.ObjectId
   user        User    @relation(fields: [userId], references: [id])
-  @@index([userId])
+    villageId String @db.ObjectId
+  village  Village @relation(fields: [villageId], references: [id])
+  branchId String @db.ObjectId
+  branch  Branch @relation(fields: [branchId], references: [id])
+  
 }
 
 
@@ -55,47 +59,63 @@ model Branch {
     name  String
     description String
     Contacts Int
-    sectors sector[] 
+    sectors Sector[] 
+    connections Connection[]
+    issues Issues[]
 }
 
 model Connection {
   id    String @id @default(auto()) @map("_id") @db.ObjectId
   names String
-  ID   Int
-  UPI String
+  nid   Int
+  upi String
   villageId String @db.ObjectId
-  village  village @relation(fields: [villageId], references: [id])
+  village  Village @relation(fields: [villageId], references: [id])
+  branchId String @db.ObjectId
+  branch  Branch @relation(fields: [branchId], references: [id])
 
 }
 
-model province{
+model Province{
    id    String @id @default(auto()) @map("_id") @db.ObjectId
    name String
-   districts district []
+   districts District []
 }
-model district {
+model District {
    id    String @id @default(auto()) @map("_id") @db.ObjectId
    name String
    provinceId String @db.ObjectId
-province  province @relation(fields: [provinceId], references: [id])
+province  Province @relation(fields: [provinceId], references: [id])
+sectors Sector[]
+
 }
-model sector {
+model Sector {
    id    String @id @default(auto()) @map("_id") @db.ObjectId
    name String
+   districtId String  @db.ObjectId
+   district  District @relation(fields: [districtId], references: [id])
    branchId String @db.ObjectId
  branch Branch @relation(fields: [branchId], references: [id])
+ cells Cell[]
+
 }
 
-model cell {
+model Cell {
    id    String @id @default(auto()) @map("_id") @db.ObjectId
    name String
    sectorId String @db.ObjectId
+   sector Sector @relation(fields: [sectorId], references: [id])
+   villages Village[]
+
+
 }
 
 
-model village {
+model Village {
    id    String @id @default(auto()) @map("_id") @db.ObjectId
    name String
    cellId String @db.ObjectId
+   cell Cell @relation(fields: [cellId], references: [id])
    connections Connection[]
+   issues Issues[]
 }

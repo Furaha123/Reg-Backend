@@ -1,20 +1,15 @@
 import { IsNotEmpty, IsString } from 'class-validator';
 
-export class CreateConnectionDto {
+export class SectorCreateDto {
   @IsString()
   @IsNotEmpty()
-  names: string;
+  name: string;
 
   @IsString()
   @IsNotEmpty()
-  nid: number;
+  districtId: string;
 
-  villageId: string;
   @IsString()
   @IsNotEmpty()
-  upi: string;
-
   branchId: string;
-  village: string;
-  branch: string;
 }

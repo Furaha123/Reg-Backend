@@ -8,6 +8,9 @@ import { ServicesModule } from './services/services.module';
 import { IssuesModule } from './issues/issues.module';
 import { BranchModule } from './branch/branch.module';
 import { ConnectionModule } from './connection/connection.module';
+import { ProvinceModule } from './province/province.module';
+import { DistrictModule } from './district/district.module';
+import { SectorModule } from './sector/sector.module';
 
 @Module({
   imports: [
@@ -17,6 +20,9 @@ import { ConnectionModule } from './connection/connection.module';
     IssuesModule,
     BranchModule,
     ConnectionModule,
+    ProvinceModule,
+    DistrictModule,
+    SectorModule,
   ],
   controllers: [AppController],
   providers: [AppService],
